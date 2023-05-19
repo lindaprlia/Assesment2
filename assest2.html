@@ -15,6 +15,14 @@
     th {
       background-color: #f2f2f2;
     }
+    .success-notification {
+      color: green;
+      margin-top: 10px;
+    }
+    .error-notification {
+      color: red;
+      margin-top: 10px;
+    }
   </style>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -37,6 +45,8 @@
     
     <input type="submit" value="Tambahkan">
   </form>
+
+  <div id="notification"></div>
 
   <h2>Data Maybelline</h2>
   <table id="data-table">
@@ -95,6 +105,12 @@
         var productPrice = $('#product-price').val();
         
 
+        // Validasi form
+        if (productName === '' || productCategory === '' || productPrice === '') {
+          showNotification('error', 'Harap lengkapi semua field form.');
+          return;
+        }
+
         // Menambahkan baris produk baru ke dalam tabel
         var tableBody = $('#data-table tbody');
         var tableRow = $('<tr>');
@@ -110,7 +126,24 @@
         $('#product-category').val('');
         $('#product-price').val('');
         
+
+        showNotification('success', 'Data berhasil ditambahkan.');
       });
+
+      // Fungsi untuk menampilkan notifikasi
+      function showNotification(type, message) {
+        var notificationDiv = $('#notification');
+        notificationDiv.removeClass();
+        notificationDiv.empty();
+
+        if (type === 'success') {
+          notificationDiv.addClass('success-notification');
+        } else if (type === 'error') {
+          notificationDiv.addClass('error-notification');
+        }
+
+        notificationDiv.text(message);
+      }
     });
   </script>
 </body>
