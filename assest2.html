@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tampilan Data Maybelline</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <h1>Tampilan Data Maybelline</h1>
+  <table id="data-table">
+    <thead>
+      <tr>
+        <th>Nama Produk</th>
+        <th>Kategori</th>
+        <th>Harga</th>
+        
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    $(document).ready(function() {
+      var url = 'http://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline';
+
+      // Mengambil data dari API menggunakan AJAX
+      $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+          var products = data;
+
+          // Membuat tampilan data
+          var tableBody = $('#data-table tbody');
+
+          // Iterasi melalui setiap produk
+          for (var i = 0; i < products.length; i++) {
+            var product = products[i];
+
+            // Menambahkan baris produk ke dalam tabel
+            var tableRow = $('<tr>');
+            tableRow.append($('<td>').text(product.name));
+            tableRow.append($('<td>').text(product.category));
+            tableRow.append($('<td>').text(product.price));
+
+            tableBody.append(tableRow);
+          }
+        },
+        error: function() {
+          console.log('Terjadi kesalahan dalam mengambil data.');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
